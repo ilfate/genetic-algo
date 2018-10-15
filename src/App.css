@@ -1,0 +1,60 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  color: red; }
+
+#root {
+  width: 100%;
+  height: 100%; }
+
+.game-root {
+  width: 100%;
+  height: 100%;
+  padding: 50px 0 0 0;
+  background-color: #000; }
+
+.player-container {
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  width: 1248;
+  display: flex;
+  justify-content: center; }
+
+.field {
+  width: 1080px;
+  height: 600px;
+  border: 1px solid #888; }
+  .field .unit {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background-color: #12BA34; }
+  .field .food {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background-color: #7273E8; }
+
+.controlls {
+  width: 256px;
+  height: 600px;
+  border: 1px solid #888;
+  border-left: 0px; }
+  .controlls a {
+    color: #78C0A8;
+    margin: 5px;
+    cursor: pointer; }
+
+.behaviour-display {
+  margin: 0 auto;
+  width: 1336px;
+  word-wrap: break-word; }
+  .behaviour-display span {
+    margin: 0 5px; }
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(360deg); } }
