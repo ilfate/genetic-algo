@@ -40,17 +40,15 @@ class Controlls extends Component {
     @action stop() {
         clearInterval(this.interval);
         this.interval = 0;
-        console.log(this.props.store.getAllFood.length);
-        console.log(this.props.store.food.array.length);
     }
 
     render() {
         const { units } = this.props;
         return (
-            <div className={"controlls"} onClick={this.action}>
+            <div className={"controlls"}>
                 <a className={'btn'} onClick={this.start}>Start</a>
                 <a className={'btn'} onClick={this.stop}>Stop</a>
-                {/*<a className={'btn'} onClick={this.showBehaviour}>Show Behaviour</a>*/}
+                {/*<a className={'btn'} onClick={this.action}>Single Action</a>*/}
             </div>
         );
     }

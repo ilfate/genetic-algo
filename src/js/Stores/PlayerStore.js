@@ -1,7 +1,7 @@
 import { observable, action, computed } from "mobx";
 import Field from "../Player/Field";
 import MapStorage from "./MapStorage";
-import FoodStore from "./FoodStore";
+import MapObjectStore from "./MapObjectStore";
 import UnitStore from "./UnitStore";
 import Behaviour from "../Behaviour";
 
@@ -11,9 +11,10 @@ class PlayerStore {
     @observable food = new MapStorage();
     @observable lastId = 0;
     @observable deadUnits = [];
+    @observable generationNumber = 1;
+
     @observable bestBehaviour = [];
-    // @observable isTestMode = false;
-    // @observable chapter = chapterStore;
+    @observable bestAge = 0;
 
     @action.bound action() {
         this.units.map(unit => {
@@ -23,16 +24,19 @@ class PlayerStore {
             }
         })
     }
+
     @action.bound generation() {
         this.units = [];
         const sorted = this.deadUnits.slice().sort(function(a, b) {
             return b.age - a.age;
         });
         this.bestBehaviour = sorted[0].behaviour;
-        console.log(this.bestBehaviour);
+        this.bestAge = sorted[0].age;
+        this.generationNumber++;
+
         for(let i = 0; i < 5; i ++) {
             let originalBehaviour = sorted[i].behaviour;
-            // console.log('b', originalBehaviour);
+
             for (let n = 0; n < 20; n ++) {
                 let unit = new UnitStore(Behaviour.mutate(originalBehaviour, n * 2.5));
                 this.addUnit(unit);
@@ -45,10 +49,12 @@ class PlayerStore {
             }
         }
     }
-    @action.bound addUnit(unit) {
+
+    addUnit(unit) {
         this.units.push(unit);
         unit.id = this.lastId++;
     }
+
     addFood(x = false, y = false) {
         if (x === false) {
             x = Math.round(Math.random() * Field.WIDTH);
@@ -57,40 +63,47 @@ class PlayerStore {
             y = Math.round(Math.random() * Field.HEIGHT);
         }
         const id = x + y + Math.round(Math.random() * 10000);
-        const food = new FoodStore();
+        const food = new MapObjectStore();
         food.x = x;
         food.y = y;
         food.id = id;
+        food.type = MapObjectStore.FOOD;
         this.food.add(food, x, y);
     }
-    @action.bound removeFood(x, y) {
-        this.food.remove({x, y});
+
+    addStone(x, y) {
+        const id = x + y + Math.round(Math.random() * 99999);
+        const food = new MapObjectStore();
+        food.x = x;
+        food.y = y;
+        food.id = id;
+        food.type = MapObjectStore.STONE;
+        this.food.add(food, x, y);
     }
 
-    @action.bound unitDeath(unit) {
+    unitDeath(unit) {
         const index = this.units.indexOf(unit);
-        // console.log(unit, index);
+
         if (index > -1) {
             this.units.splice(index, 1);
         }
         this.deadUnits.push(unit);
     }
 
-    @computed get getAllFood() {
+    @computed get getAllMapObjects() {
         return this.food.all;
     }
-    //
-    // @action.bound setChapter(chapter) {
-    //     this.chapter = chapter;
-    // }
-    //
-    // @action.bound sceneStepFinished(nextStep) {
-    //     this.chapter.scene.stepFinished(nextStep);
-    // }
-    //
-    // @computed get progress() {
-    //     return this.chapter.scene.progress;
-    // }
+    @computed get getFoodCount() {
+        let count = 0;
+        this.food.array.map(item => item.type === MapObjectStore.FOOD ? count++ : "");
+        return count;
+    }
+    @computed get getStonesCount() {
+        let count = 0;
+        this.food.array.map(item => item.type === MapObjectStore.STONE ? count++ : "");
+        return count;
+    }
+
 }
 
 

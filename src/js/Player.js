@@ -18,13 +18,16 @@ for(let i = 0; i < 300; i++) {
 }
 // for(let i = 0; i < 5; i++) {
 //     let unit = new UnitStore();
-//     unit.x = 100 + i * 2;
+//     unit.x = 100;
 //     unit.y = 100;
 //     unit.d = 0;
-//     unit.behaviour = [Behaviour.CHECK, Behaviour.NOTHING, Behaviour.NOTHING, Behaviour.NOTHING, Behaviour.NOTHING, Behaviour.NOTHING, Behaviour.NOTHING, Behaviour.NOTHING, Behaviour.NOTHING, Behaviour.NOTHING, Behaviour.NOTHING, Behaviour.NOTHING, Behaviour.NOTHING, Behaviour.NOTHING, Behaviour.NOTHING, Behaviour.NOTHING, Behaviour.NOTHING, Behaviour.NOTHING, Behaviour.NOTHING, Behaviour.NOTHING, Behaviour.NOTHING, Behaviour.NOTHING];
+//     unit.behaviour = [Behaviour.MOVE, Behaviour.CHECK, Behaviour.MOVE, Behaviour.MOVE, Behaviour.ROTATE_RIGHT];
 //     store.addUnit(unit);
 // }
 // store.addFood(100, 98);
+// store.addFood(100, 96);
+// store.addFood(100, 94);
+// store.addFood(100, 92);
 //
 // const sorted = store.units;
 // store.units = [];
@@ -50,6 +53,7 @@ class Player extends Component {
         return (
             <Provider store={store}>
                 <div>
+                    <h1>Genetic algorithm - creature behaviour</h1>
                     <div className="player-container">
                         <Field />
                         <Controlls/>

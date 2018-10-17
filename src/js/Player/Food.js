@@ -9,12 +9,12 @@ class Food extends Component {
 
 
     render() {
-        const { x, y } = this.props;
+        const { x, y, type } = this.props;
         let style = {
             margin: `${y * Field.SIZE}px 0 0 ${x * Field.SIZE}px`
         };
         return (
-            <div className={"food"} style={style}>
+            <div className={"mapObject " + type} style={style}>
             </div>
         );
     }

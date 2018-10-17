@@ -8,15 +8,14 @@ class FoodContainer extends Component {
 
     render() {
         const { store } = this.props;
-        const allFood = store.getAllFood;
+        const allFood = store.getAllMapObjects;
         return (
             <div className={"foods"}>
                 {allFood.map((food) => {
                     if (!food) return;
-                    return <Food x={ food.x} y={ food.y } key={`${food.x} ${food.y}`} />
+                    return <Food x={ food.x} y={ food.y } key={`${food.x} ${food.y}`} type={food.type} />
                 }
                 )}
-                {allFood.length}
             </div>
         );
 

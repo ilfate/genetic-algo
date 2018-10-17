@@ -15,6 +15,7 @@ class UnitStore {
     @observable y = Math.round(Math.random() * Field.HEIGHT);
 
     @observable actionPointer = 0;
+    @observable exitPointer = -1;
     @observable behaviour;
 
     constructor(behaviour) {
@@ -28,6 +29,7 @@ class UnitStore {
         if (this.energy <= 0) {
             return this.death();
         }
+        let wasExitPointer = this.exitPointer;
         const action = this.behaviour[this.actionPointer];
         Behaviour.do(this, action, store);
         this.age++;
@@ -35,8 +37,13 @@ class UnitStore {
             // time to get older
             this.energy--;
         }
-        this.actionPointer++;
-        if (this.actionPointer >= this.behaviour.length) this.actionPointer = 0;
+        if (wasExitPointer !== -1 && wasExitPointer === this.exitPointer) {
+            this.actionPointer = wasExitPointer;
+            this.exitPointer = -1;
+        } else {
+            this.actionPointer++;
+        }
+        if (this.actionPointer >= this.behaviour.length) this.actionPointer -= this.behaviour.length;
         return true;
     }
 
